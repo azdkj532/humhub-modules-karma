@@ -5,6 +5,7 @@ Yii::app()->moduleManager->register(array(
     'class' => 'application.modules.karma.KarmaModule',
     'import' => array(
         'application.modules.karma.*',
+        'application.modules.karma.models.*',
         'application.modules.karma.widgets.*',
     ),
     'events' => array(
