@@ -45,6 +45,8 @@ class KarmaUser extends HActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'user' => array(static::BELONGS_TO, 'User', 'user_id'),
+            'karma' => array(static::BELONGS_TO, 'Karma', 'karma_id'),
 		);
 	}
 
@@ -89,6 +91,20 @@ class KarmaUser extends HActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/** 
+	 * Filters results by the question_id
+	 * @param $question_id
+	 */
+	public function user($user_id)
+	{
+	    $this->getDbCriteria()->mergeWith(array(
+	        'condition'=>"user_id=:user_id", 
+	        'params' => array(':user_id' => $user_id)
+	    ));
+
+	    return $this;
 	}
 
 	/**

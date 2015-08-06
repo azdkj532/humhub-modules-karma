@@ -28,4 +28,21 @@ class KarmaEvents{
         ));
     }
 
+
+    /** 
+     * Add the Karma menu to the user
+     * profile page
+     * @param type $event
+     */
+    public static function onProfileMenuWidgetInit($event) 
+    {
+         $event->sender->addItem(array(
+            'label' => Yii::t('KarmaModule.base', 'Karma'),
+            'group' => 'profile',
+            'url' => $event->sender->user->createUrl('//karma/profile/view'),
+            'sortOrder' => 400,
+            'isActive' => (Yii::app()->controller->module->id == "karma" && Yii::app()->controller->id == "profile" && Yii::app()->controller->action->id == "view"),
+        ));
+    }
+
 }
