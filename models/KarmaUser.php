@@ -108,6 +108,20 @@ class KarmaUser extends HActiveRecord
 	}
 
 	/**
+	 * Calculate the user's karma score
+	 */
+	public function score($user_id) {
+
+		// Calculate the "score" (up votes minus down votes)
+		$sql = "SELECT sum(points) as score FROM karma_user ku, karma k
+					WHERE k.id = ku.karma_id
+					AND user_id = :user_id";
+					
+		return Yii::app()->db->createCommand($sql)->bindValue('user_id', $user_id)->queryScalar();
+
+	}
+
+	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
