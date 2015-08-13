@@ -101,4 +101,25 @@ class Karma extends HActiveRecord
 	}
 
 
+    /** 
+     * Private method that handles assinging
+     * karma to a user
+     * @param string $karma_name
+     * @param int $user_id
+     * @return bool
+     */
+    public function addKarma($karma_name, $user_id) {
+
+        // First find the karma record
+        $karma = Karma::model()->findByAttributes(array('name' => $karma_name));
+
+        if($karma) {
+	        KarmaUser::model()->attachKarma($user_id, $karma->id);
+	        return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
