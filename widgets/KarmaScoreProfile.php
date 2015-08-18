@@ -1,13 +1,13 @@
 <?php
 /**
- * KarmaProfileLink. 
- * Displays link on the user profile page
+ * KarmaScoreProfile. 
+ * Displays karma score on profile
  * 
  * @package humhub.modules_core.user.widgets
  * @since 0.5
  * @author Luke
  */
-class KarmaProfileLink extends HWidget
+class KarmaScoreProfile extends HWidget
 {
 
     /**
@@ -23,7 +23,7 @@ class KarmaProfileLink extends HWidget
      */
     public function run()
     {
-        $this->render('karmaProfileLink', array('user' => $this->user));
+        $this->render('KarmaScoreProfile', array('user' => $this->user));
     }
     
 }
