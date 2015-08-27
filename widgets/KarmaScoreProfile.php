@@ -23,7 +23,7 @@ class KarmaScoreProfile extends HWidget
      */
     public function run()
     {
-        $this->render('KarmaScoreProfile', array('user' => $this->user));
+        $this->render('karmaScoreProfile', array('user' => $this->user));
     }
     
 }
