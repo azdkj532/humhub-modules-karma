@@ -1,6 +1,10 @@
 <?php
 
-class m150730_060312_create_karma_user_table extends EDbMigration
+use humhub\components\Migration;
+use module\wiki\models\WikiPage;
+use module\wiki\models\WikiPageRevision;
+
+class m150730_060312_create_karma_user_table extends Migration
 {
 	public function up()
 	{

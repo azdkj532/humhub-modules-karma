@@ -1,49 +1,44 @@
 <?php
 
-class AdminController extends Controller
+namespace humhub\modules\karma\controllers;
+
+use Yii;
+use yii\helpers\Url;
+use humhub\modules\karma\models\Karma;
+use humhub\modules\karma\models\KarmaSearch;
+
+class AdminController extends \humhub\modules\admin\components\Controller
 {
-     public $subLayout = "application.modules_core.admin.views._layout";
+
+    public $subLayout = "@humhub/modules/admin/views/_layout";
 
     /**
-     * @return array action filters
+     * @inheritdoc
      */
-    public function filters()
+    public function behaviors()
     {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-        );
-    }
-
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'expression' => 'Yii::app()->user->isAdmin()',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            'acl' => [
+                'class' => \humhub\components\behaviors\AccessControl::className(),
+            ]
+        ];
     }
 
     /**
      * Configuration Action for Super Admins
      */
-    public function actionIndex() {
+    public function actionIndex() 
+    {
 
+        $searchModel = new KarmaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $model = new Karma('search');
-
-        $this->render('index', array(
-            'model' => $model
+        return $this->render('index', array(
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'model' => Karma::find()
         ));
-
-        // KarmaUser::model()->attachKarma(1, 1);
+        
     }
      
 
