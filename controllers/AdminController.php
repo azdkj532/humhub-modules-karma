@@ -4,8 +4,11 @@ namespace humhub\modules\karma\controllers;
 
 use Yii;
 use yii\helpers\Url;
+use humhub\modules\user\models\User;
 use humhub\modules\karma\models\Karma;
 use humhub\modules\karma\models\KarmaSearch;
+use humhub\compat\HForm;
+
 
 class AdminController extends \humhub\modules\admin\components\Controller
 {
@@ -53,7 +56,7 @@ class AdminController extends \humhub\modules\admin\components\Controller
         $definition = array();
         $definition['elements'] = array();
 
-        // Define Form Eleements
+        // Define Form Elements
         $definition['elements']['Karma'] = array(
             'type' => 'form',
             'title' => 'Karma',
@@ -86,23 +89,15 @@ class AdminController extends \humhub\modules\admin\components\Controller
         );
 
         $form = new HForm($definition);
-        $form['Karma']->model = Karma::model();
+        $form->models['Karma'] = new Karma();
 
         // Save new karma
         if($form->submitted('save') && $form->validate()) {
-            
-            $karmaModel = new Karma;
-            $karmaModel->name = $form['Karma']->model->name;
-            $karmaModel->points = $form['Karma']->model->points;
-            $karmaModel->description = $form['Karma']->model->description;
-            $karmaModel->save();
-
-            $this->redirect($this->createUrl('index'));
-
+            $form->models['Karma']->save();
+            return $this->redirect(Url::to(['index']));
         }
 
-
-        $this->render('add', array('form' => $form));
+        return $this->render('add', array('hForm' => $form));
     }
 
 
@@ -111,21 +106,17 @@ class AdminController extends \humhub\modules\admin\components\Controller
      */
     public function actionEdit()
     {
-
-        $_POST = Yii::app()->input->stripClean($_POST);
-
-        $id = (int) Yii::app()->request->getQuery('id');
-        $user = User::model()->resetScope()->findByPk($id);
-        $karma = Karma::model()->resetScope()->findByPk($id);
+        $id = (int) Yii::$app->request->get('id');
+        $user = User::findOne(['id' => $id]);
+        $karma = Karma::findOne(['id' => $id]);
 
         if ($karma == null)
-            throw new CHttpException(404, "Karma record not found!");
+            throw new \yii\web\HttpException(404, "Karma record not found!");
+
 
         // Build Form Definition
         $definition = array();
         $definition['elements'] = array();
-
-        $groupModels = Group::model()->findAll(array('order' => 'name'));
 
         // Define Form Eleements
         $definition['elements']['Karma'] = array(
@@ -166,22 +157,20 @@ class AdminController extends \humhub\modules\admin\components\Controller
         );
 
         $form = new HForm($definition);
-        $form['Karma']->model = $karma;
+        $form->models['Karma'] = $karma;
 
         if ($form->submitted('save') && $form->validate()) {
-            $this->forcePostRequest();
-
-            if($form['Karma']->model->save()) {
-                $this->redirect($this->createUrl('edit', array('id' => $karma->id)));
-                return;
+            if ($form->save()) {
+                return $this->redirect(Url::toRoute(['edit', 'id' => $karma->id]));
             }
         }
 
+
         if ($form->submitted('delete')) {
-            $this->redirect(Yii::app()->createUrl('karma/admin/delete', array('id' => $user->id)));
+            return $this->redirect(Url::toRoute(['delete', 'id' => $karma->id]));
         }
 
-        $this->render('edit', array('form' => $form));
+        return $this->render('edit', array('hForm' => $form));
 
     }
 
@@ -192,24 +181,21 @@ class AdminController extends \humhub\modules\admin\components\Controller
     public function actionDelete()
     {
 
-        $id = (int) Yii::app()->request->getQuery('id');
-        $doit = (int) Yii::app()->request->getQuery('doit');
+        $id = (int) Yii::$app->request->get('id');
+        $doit = (int) Yii::$app->request->get('doit');
 
-        $karma = Karma::model()->resetScope()->findByPk($id);
+        $karma = Karma::findOne(['id' => $id]);
 
-        if ($karma == null) {
-            throw new CHttpException(404, "Karma record not found");
-        } 
+        if ($karma == null)
+            throw new \yii\web\HttpException(404, "Karma record not found!");
 
         if ($doit == 2) {
-
             $this->forcePostRequest();
-
             $karma->delete();
-            $this->redirect($this->createUrl('index'));
+            return $this->redirect(Url::toRoute('index'));
 
         }
 
-        $this->render('delete', array('model' => $karma));
+        return $this->render('delete', array('model' => $karma));
     }
 }
