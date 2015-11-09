@@ -5,11 +5,6 @@ namespace humhub\modules\karma;
 use Yii;
 use yii\helpers\Url;
 
-/**
- * Description of Events
- *
- * @author luke
- */
 class Events extends \yii\base\Object
 {
 
@@ -30,7 +25,6 @@ class Events extends \yii\base\Object
             'sortOrder' => 510,
         ));
     }
-
 
     /** 
      * Add the Karma menu to the user
