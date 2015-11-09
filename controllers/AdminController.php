@@ -23,6 +23,7 @@ class AdminController extends \humhub\modules\admin\components\Controller
         return [
             'acl' => [
                 'class' => \humhub\components\behaviors\AccessControl::className(),
+                'adminOnly' => true
             ]
         ];
     }
