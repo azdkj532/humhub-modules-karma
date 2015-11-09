@@ -1,3 +1,10 @@
+<?php
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+use yii\data\ActiveDataProvider;
+?>
 <div class="panel panel-default">
     <div
         class="panel-heading"><?php echo Yii::t('UserModule.views_profile_about', '<strong>Karma</strong> for this user'); ?></div>
@@ -5,8 +12,19 @@
     <div class="panel-body">
 
         <?php
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                'karma.points',
+                'karma.name',
+                'karma.description',
+                'created_at:datetime',
+            ],
+        ]);
+
+
         // 'modelx' => KarmaUser::model()->
-        $this->widget('zii.widgets.grid.CGridView', array(
+        /*$this->widget('zii.widgets.grid.CGridView', array(
             'id' => 'user-grid',
             'dataProvider' => $model->user($user->id)->search(), 
             'itemsCssClass' => 'table table-hover',
@@ -41,7 +59,7 @@
                 'htmlOptions' => array('class' => 'pagination'),
             ),
             'pagerCssClass' => 'pagination-container',
-        ));
+        ));*/
         ?>
 
 
