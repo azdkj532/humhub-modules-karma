@@ -93,7 +93,7 @@ class KarmaUser extends ActiveRecord
 					WHERE k.id = ku.karma_id
 					AND user_id = :user_id";
 					
-		return Yii::app()->db->createCommand($sql)->bindValue('user_id', $user_id)->queryScalar();
+		return Yii::$app->db->createCommand($sql)->bindValue('user_id', $user_id)->queryScalar();
 
 	}
 
