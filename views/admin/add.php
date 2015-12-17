@@ -13,8 +13,6 @@ use yii\helpers\Url;
                 <a href="<?php echo Url::toRoute('add'); ?>">Add Karma Record</a>
             </li>
         </ul>
-        <p />
-
         <?php $form = \yii\widgets\ActiveForm::begin(); ?>
         <?php echo $hForm->render($form); ?>
         <?php \yii\widgets\ActiveForm::end(); ?>
