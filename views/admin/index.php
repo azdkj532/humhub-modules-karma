@@ -41,6 +41,9 @@ use yii\data\ActiveDataProvider;
                     'class' => 'yii\grid\ActionColumn',
                     'options' => ['width' => '80px'],
                     'buttons' => [
+                        'view' => function($url, $model) {
+                            return "";
+                        },
                         'update' => function($url, $model) {
                             return Html::a('<i class="fa fa-pencil"></i>', Url::toRoute(['edit', 'id' => $model->id]), ['class' => 'btn btn-primary btn-xs tt']);
                         },
