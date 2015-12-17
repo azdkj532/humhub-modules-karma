@@ -1,8 +1,6 @@
 <?php
 
 use humhub\components\Migration;
-use module\wiki\models\WikiPage;
-use module\wiki\models\WikiPageRevision;
 
 class m150730_060113_create_karma_table extends Migration
 {
