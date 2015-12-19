@@ -42,4 +42,19 @@ class Events extends \yii\base\Object
         ));
     }
 
+    /**
+     * Show Karma on the user profile page.
+     *
+     * @param type $event
+     */
+
+    public static function onProfileHeaderControlsWidgetInint($event)
+    {
+        $event->sender->addItem(array(
+            'label' => Yii::t('KarmaModule.base', 'Karma'),
+            'group' => 'profile',
+            'sortOrder' => 100,
+            'isActive' => (Yii::$app->controller->module->id == "karma" && Yii::$app->controller->id == "profile" && Yii::$app->controller->action->id == "view"),
+        ));
+    }
 }
